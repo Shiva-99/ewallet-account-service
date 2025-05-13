@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ewalletAccountService</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>ewallet-account-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>ewallet-account-service</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
