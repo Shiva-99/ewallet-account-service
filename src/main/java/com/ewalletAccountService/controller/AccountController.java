@@ -1,20 +1,34 @@
 package com.ewalletAccountService.controller;
 
 import com.ewalletAccountService.dto.AccountDto;
+import com.ewalletAccountService.dto.UserDto;
 import com.ewalletAccountService.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/accounts")
 public class AccountController {
 
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
     private AccountService accountService;
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<String> getUserName(@PathVariable Long id) {
+        String url = "http://EWALLET-USER-SERVICE/api/users/" + id;
+        UserDto user = restTemplate.getForObject(url, UserDto.class);
+        return ResponseEntity.ok(Optional.ofNullable(user.getUsername()).orElseThrow(() -> new RuntimeException("No name found")));
+    }
 
     @Autowired
     public AccountController(AccountService accountService) {

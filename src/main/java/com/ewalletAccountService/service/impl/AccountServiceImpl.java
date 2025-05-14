@@ -1,12 +1,14 @@
 package com.ewalletAccountService.service.impl;
 
 import com.ewalletAccountService.dto.AccountDto;
+import com.ewalletAccountService.dto.UserDto;
 import com.ewalletAccountService.entity.Account;
 import com.ewalletAccountService.mapper.AccountMapper;
 import com.ewalletAccountService.repository.AccountRepository;
 import com.ewalletAccountService.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -14,11 +16,22 @@ import java.util.function.Predicate;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     public AccountRepository repository;
 
     @Autowired
     public AccountServiceImpl(AccountRepository repository) {
         this.repository = repository;
+    }
+
+    public void getUserById(Long id) {
+        String url = "http://EWALLET-USER-SERVICE/api/users" + id;
+        UserDto user = restTemplate.getForObject(url, UserDto.class);
+
+        String name = user.getUsername();
+        System.out.println("User name: " + name);
     }
 
     @Override
